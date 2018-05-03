@@ -70,9 +70,36 @@ class Owl extends React.Component {
     }
   }
   
+  //Below is a component that uses 'this' to render a react component instance. In this case a name:
+  class MyName extends React.Component {
+    // name property goes here:
+    get name() {
+      return "Amadeus";
+    }
+  
+    render() {
+      return <h1>My name is {this.name}.</h1>;
+    }
+  }
+  
+//Below is a component with an event handler that plays a message when clicked. 
+  //Note here this is also used to refer to the Button components scream method:
+class Button extends React.Component {
+    scream() {
+      alert('AAAAAAAAHHH!!!!!');
+    }
+  
+    render() {
+      return <button onClick = {this.scream}>AAAAAH!</button>;
+    }
+}
+  
+ReactDOM.render(<Button />, document.getElementById("scream-button"));
+
+
 ReactDOM.render(<Friend />, document.getElementById('app'));
 
-
+ReactDOM.render(<MyName />, document.getElementById('name'));
 
 ReactDOM.render(<Owl />, document.getElementById("owl-div"));
 
