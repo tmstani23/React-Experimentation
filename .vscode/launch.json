@@ -9,14 +9,14 @@
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
-            "file": "${workspaceFolder}/index.html"
+            "file": "${workspaceFolder}/interact-index.html"
         },
         {
             "name": "Launch localhost",
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
-            "url": "file:///C:/Users/a83h8zz/Programming2018/React-Experimentation/index.html",
+            "url": "file:///C:/Users/a83h8zz/Programming2018/React-Experimentation/interact-index.html",
             "webRoot": "${workspaceFolder}"
         },
         {
