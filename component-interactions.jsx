@@ -143,4 +143,27 @@ ReactDOM.render(
   document.getElementById('children')
 );
 
+//Below is an example of a component class being assigned a default Props value
+  //When the component instance is called a default message will be applied:
+class DefaultButton extends React.Component {
+  render() {
+    return (
+      <div>
+        <button>
+          {this.props.text}
+        </button>
+      </div>
+    );
+  }
+}
+//Assign Button class a default property for text.
+DefaultButton.defaultProps = { text: 'I am a default button text' };
+
+ReactDOM.render(
+  <DefaultButton />, 
+  document.getElementById('default-msg')
+);
+
+
+
 
