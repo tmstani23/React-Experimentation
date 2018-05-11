@@ -1,21 +1,42 @@
-
-//A friends list function component:
-function FriendsList(props) {
+function ActiveFriends(props) {
     return (
         //The friends array is mapped to an anonymous function
             //And displays a list for each friend in the array:
-        <ul>
-          { props.list.map( (name) => (
-             //Set name as the key for each list item
-             //React needs a unique key to compare states
-             <li  key = { name }>
-                 <span> { name } </span>
-                 <button onClick = { () => props.onRemoveFriend(name) }>Remove</button>
-             </li> 
-           )) }  
-        </ul>
+        <div>
+            <h2>Active Friends</h2>
+            <ul>
+                { props.list.map( (friend) => (
+                //Set name as the key for each list item
+                //React needs a unique key to compare states
+                    <li  key = { friend.name }>
+                        <span> { friend.name } </span>
+                        <button onClick = { () => props.onRemoveFriend(friend.name) }>Remove</button>
+                        <button onClick = { () => props.onToggleFriend(friend.name) }>Deactivate</button>
+                    </li> 
+                )) }  
+            </ul>
+        </div>
     )
 }
+
+function InactiveFriends(props) {
+    return (
+        <div>
+            <h2>Inactive Friends</h2>
+            <ul>
+                { props.list.map( (friend) => (
+                //Set name as the key for each list item
+                //React needs a unique key to compare states
+                    <li  key = { friend.name }>
+                        <span> { friend.name } </span>
+                        <button onClick = { () => props.onToggleFriend(friend.name) }>Activate</button>
+                    </li>
+                )) }  
+            </ul>
+        </div>
+    )
+}
+
 //App component that renders the app to the screen:
     //Note: Use class component when you want to manage component state
 class App extends React.Component {
@@ -24,13 +45,27 @@ class App extends React.Component {
         super(props);
         
         this.state = {
-            friends: ["Tom", "Leah", "Isaac"],
-            input: ""
+            friends: [
+                {
+                    name: "Tom", 
+                    active: true
+                },
+                {
+                    name: "Leah", 
+                    active: true
+                },
+                {   
+                    name: "Isaac",
+                    active: false
+                }
+            ],
+            input: "",
             
         };
         this.handleRemoveFriend = this.handleRemoveFriend.bind(this);
         this.updateInput = this.updateInput.bind(this);
         this.handleAddFriend = this.handleAddFriend.bind(this);
+        this.handleToggleFriend = this.handleToggleFriend.bind(this);
         
 
     }
@@ -42,7 +77,10 @@ class App extends React.Component {
                 //Does not modify the original array
             if (currentState.input !== "") {
                 return { 
-                friends: currentState.friends.concat([currentState.input]),
+                friends: currentState.friends.concat([{
+                    name: currentState.input,
+                    active: true
+                }]),
                     input: ""
                 }
             }
@@ -57,10 +95,24 @@ class App extends React.Component {
             return {
                 //set current state friend to 
                     // a friend that doesn't have the name passed into this component
-                friends: currentState.friends.filter((friend) => friend !== name)
+                friends: currentState.friends.filter((friend) => friend.name !== name)
             }
         })
-    }   
+    }
+    
+    handleToggleFriend(name) {
+        this.setState((currentState) => {
+            const friend = currentState.friends.find((friend) => friend.name === name)
+            
+            return {
+                friends: currentState.friends.filter((friend) => friend.name !== name)
+                    .concat([{
+                        name, 
+                        active: !friend.active
+                    }])
+            }
+        })
+    }
 
     updateInput(e) {
         const value = e.target.value;
@@ -82,9 +134,23 @@ class App extends React.Component {
                     onChange = {this.updateInput}
                 />
                 <button onClick = { this.handleAddFriend }>Submit</button>
-                <FriendsList 
-                    list = { this.state.friends }
-                    onRemoveFriend = { this.handleRemoveFriend } />
+                <div>
+                    <button onClick = {() => this.setState({
+                        friends: []
+                    })}>
+                    Clear All
+                    </button>
+                </div>
+                <ActiveFriends 
+                    onRemoveFriend = { this.handleRemoveFriend }
+                    list = { this.state.friends.filter((friend) => friend.active === true) }
+                    onToggleFriend = { this.handleToggleFriend }
+                />
+                <InactiveFriends 
+                    list = { this.state.friends.filter((friend) => friend.active === false) }
+                    onToggleFriend = { this.handleToggleFriend }
+                />
+                
                 
             </div>
         )
