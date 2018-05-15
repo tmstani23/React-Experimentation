@@ -1,3 +1,38 @@
+//Component that renders loading message to the screen until friends data request completes
+class Loading extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            text: "Loading"
+        }
+    }
+    //When component mounts render loading until the data request completes
+    componentDidMount() {
+        const stopper = this.state.text + "...";
+
+        this.interval = window.setInterval(() => {
+            console.log("running");
+            //Once component state gets to Loading... reset to loading
+            this.state.text === stopper 
+            ? this.setState({ text: "Loading"})
+            : this.setState((currentState) => {
+                return {
+                    text: currentState.text + '.'
+                }
+            })
+        }, 300);
+            
+    }   
+    componentWillUnmount() {
+        window.clearInterval(this.interval);
+    }
+    render() {
+        return <p> { this.state.text } </p>
+    }
+}
+
+
 function ActiveFriends(props) {
     return (
         //The friends array is mapped to an anonymous function
@@ -45,21 +80,9 @@ class App extends React.Component {
         super(props);
         
         this.state = {
-            friends: [
-                {
-                    name: "Tom", 
-                    active: true
-                },
-                {
-                    name: "Leah", 
-                    active: true
-                },
-                {   
-                    name: "Isaac",
-                    active: false
-                }
-            ],
+            friends: [],
             input: "",
+            loading: true
             
         };
         this.handleRemoveFriend = this.handleRemoveFriend.bind(this);
@@ -67,7 +90,29 @@ class App extends React.Component {
         this.handleAddFriend = this.handleAddFriend.bind(this);
         this.handleToggleFriend = this.handleToggleFriend.bind(this);
         
+        console.log('--constructor--');
 
+    }
+    //invoked whenever the component is mounted to the browser DOM
+    componentDidMount() {
+        console.log("--componentDidMount--");
+
+        API.fetchFriends()
+            .then((friends) => {
+                //console.log("friends", friends);
+                this.setState({
+                    friends,
+                    loading: false
+                })
+            })
+    }
+    //invoked after the component has updated
+    componentDidUpdate() {
+        console.log('componentdidUpdate');
+    }
+    //invoked whenever component is removed from the DOM:
+    componentWillUnmount() {
+        console.log("--componentwillunmount--");
     }
     //Method that adds friends to the array based on user input:
     handleAddFriend() {
@@ -123,7 +168,13 @@ class App extends React.Component {
     }
 
     render() {
-        
+        console.log("--rendering--");
+        //Loading screen until the data request is completed:
+        if(this.state.loading === true){
+            return <Loading />
+        }
+
+
         return (
             
             //The friendslist component is passed the friends array:

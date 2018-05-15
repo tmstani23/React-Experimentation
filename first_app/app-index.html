@@ -12,6 +12,29 @@
     <div id="app">
 
     </div>
-    
+    <script>
+      window.API = {
+        fetchFriends() {
+          return new Promise((res, reject) => {
+            const friends = [
+                {
+                    name: "Tom", 
+                    active: true
+                },
+                {
+                    name: "Leah", 
+                    active: true
+                },
+                {   
+                    name: "Isaac",
+                    active: false
+                }
+            ]
+
+            setTimeout(() => res(friends), 2000);
+          });
+        }
+      }
+    </script>
   </body>
 </html>
