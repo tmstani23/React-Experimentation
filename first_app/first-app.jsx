@@ -10,9 +10,8 @@ class Loading extends React.Component {
     //When component mounts render loading until the data request completes
     componentDidMount() {
         const stopper = this.state.text + "...";
-
+        //Set an interval to wait until data loads
         this.interval = window.setInterval(() => {
-            console.log("running");
             //Once component state gets to Loading... reset to loading
             this.state.text === stopper 
             ? this.setState({ text: "Loading"})

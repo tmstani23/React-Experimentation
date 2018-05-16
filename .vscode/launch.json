@@ -10,14 +10,14 @@
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
-            "file": "${workspaceFolder}/first_app/app-index.html"
+            "file": "${workspaceFolder}/pop_api_app/index.html"
         },
         {
             "name": "Launch localhost",
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
-            "url": "file:///C:/Users/a83h8zz/Programming2018/React-Experimentation/first_app/app-index.html",
+            "url": "file:///C:/Users/a83h8zz/Programming2018/React-Experimentation/pop_api_app/index.html",
             "webRoot": "${workspaceFolder}"
         },
         {
