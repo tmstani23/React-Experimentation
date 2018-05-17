@@ -44,6 +44,22 @@ function Nav(props) {
     )
 }
 
+function RepoGrid(props) {
+    return (
+        <ul style = { { display: 'flex', flexWrap: 'wrap' } }>
+            {props.repos.map(( { name, owner, stargazers_count, html_url } ) => (
+                <li key = { name } style = {{margin: 30}}>
+                    <ul>
+                        <li><a href={ html_url }> {name} </a></li>
+                        <li>@{ owner.login }</li>
+                        <li>{ stargazers_count }</li>
+                    </ul>
+                </li>
+            ))}
+        </ul>
+    )
+}
+
 //Main app responsible for holding and displaying data and ui:
 class App extends React.Component {
     constructor(props) {
@@ -77,6 +93,11 @@ class App extends React.Component {
         this.fetchRepos(this.state.activeLanguage);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if(prevState.activeLanguage !== this.state.activeLanguage) {
+            this.fetchRepos(this.state.activeLanguage);
+        }
+    }
     //This method updates the state of the App and adjusts the active language property:
     handleSelectLanguage(lang) {
         this.setState( {
@@ -93,7 +114,7 @@ class App extends React.Component {
                     <h1 style = { {textAlign: "center"} }>
                     { this.state.activeLanguage }
                     </h1>
-                    { JSON.stringify(this.state.repos) }
+                    <RepoGrid repos = { this.state.repos }/>
                 </div>
             }
         </div>
