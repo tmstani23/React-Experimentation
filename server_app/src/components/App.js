@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import Home from './Home'
-import About from './About'
-import Topics from './Topics'
+import Home from './Home';
+import About from './About';
+import Topics from './Topics';
 import {
   BrowserRouter,
   Route,
   Link,
-} from 'react-router-dom'
+} from 'react-router-dom';
 
 
 class App extends Component {
+  
   render() {
+    
     return (
+      
       //wrap in browser router component for routing
       //Assign paths to links
       //Assign routes to linked paths

@@ -1,35 +1,45 @@
-import React from 'react'
+import React from 'react';
 import {
     Link,
-    Route
-} from 'react-router-dom'
+    Route,
+} from 'react-router-dom';
 
-function Topic({ match }) {
-    console.log("Topic Triggered");
-    <h3> { match.params.topicId }</h3>    
+
+//This component renders the topicId in an h2
+function Topic({match}) {
+    return <h2> {match.params.topicId}</h2> 
 }
 
-export default function Topics() {
+//Match is a subcomponent of props passed into the component via react router
+//See console.log(props) to verify
+export default function Topics({match}) {
+    
     return (
         <div>
             <h2>Topics</h2>
             <ul>
+                {/* match.url preserves the actual path passed in via props
+                    used in linking */}
                 <li>
-                    <Link to = '/topics/rendering'>Rendering with React</Link>
+                    <Link to={`${match.url}/rendering`}>Rendering with React</Link>
                 </li>
                 <li>
-                    <Link to = '/topics/components'>Components</Link>
+                    <Link to={`${match.url}/components`}>Components</Link>
                 </li>
                 <li>
-                    <Link to = '/topics/props-v-state'>Props vs. State</Link>
+                    <Link to={`${match.url}/props-v-state`}>Props vs. State</Link>
                 </li>
             </ul>
-
+            
             <hr/>
-            
-            <Route path = 'topics/:topicId' component = {Topic} />
-                
-            
+            {/* match.path designates the path.  Used in the Route.  topicID is an identifier that can be
+                used by match.params to designate the dynamic path as rendered in the Topic component */}
+            <Route path={`${match.path}/:topicId`} component={Topic} />
+            {/* Route render allows you to render jsx within the route rather than creating a separate function
+                to pass into the route as a component to render as above */}
+            <Route exact path={match.path} render = {() => {
+                return <h3>Please select a topic</h3>
+            }} />
         </div>
         
     ) 
