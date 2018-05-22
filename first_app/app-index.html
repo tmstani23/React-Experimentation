@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>My React App</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="first-app.jsx" type="text/babel"></script> 
+  </head>
+  <body>
+    <div id="app">
+
+    </div>
+    <script>
+      window.API = {
+        fetchFriends() {
+          return new Promise((res, reject) => {
+            const friends = [
+                {
+                    name: "Tom", 
+                    active: true
+                },
+                {
+                    name: "Leah", 
+                    active: true
+                },
+                {   
+                    name: "Isaac",
+                    active: false
+                }
+            ]
+
+            setTimeout(() => res(friends), 2000);
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
